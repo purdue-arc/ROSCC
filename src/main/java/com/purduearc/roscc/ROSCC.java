@@ -4,7 +4,11 @@ import com.mojang.logging.LogUtils;
 import com.purduearc.roscc.blocks.ROSPeripheralBlock;
 import com.purduearc.roscc.blocks.ROSPeripheralBlockEntity;
 
+import dan200.computercraft.api.client.ComputerCraftAPIClient;
+import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
+import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
@@ -40,14 +44,18 @@ public class ROSCC
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     // Create a Deferred Register to hold BlockEntities which will all be registered under the "roscc" namespace
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
-
+    // Create a Deferred Register to hold TurtleUpgradeSerialisers which will all be registered under the "roscc" namespace
+    public static final DeferredRegister<TurtleUpgradeSerialiser<?>> TURTLE_UPGRADE_SERIALIZERS = DeferredRegister.create(TurtleUpgradeSerialiser.registryId(), MODID);
+    
     // Creates a new Block with the id "roscc:ros_peripheral"
     public static final RegistryObject<Block> PERIPHERAL_BLOCK = BLOCKS.register("ros_peripheral", () -> new ROSPeripheralBlock());
     // Creates a new BlockItem with the id "roscc:ros_peripheral"
     public static final RegistryObject<Item> PERIPHERAL_BLOCK_ITEM = ITEMS.register("ros_peripheral", () -> new BlockItem(PERIPHERAL_BLOCK.get(), new Item.Properties()));
     // Creates a new BlockEntity with the id "roscc:ros_peripheral"
     public static final RegistryObject<BlockEntityType<ROSPeripheralBlockEntity>> PERIPHERAL_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("ros_peripheral", () -> BlockEntityType.Builder.of((pos, state) -> new ROSPeripheralBlockEntity(ROSCC.PERIPHERAL_BLOCK_ENTITY.get(), pos, state), PERIPHERAL_BLOCK.get()).build(null));
-
+    // Creates a new TurtleUpgradeSerialiser with the id "roscc:ros_peripheral"
+    public static final RegistryObject<TurtleUpgradeSerialiser<ROSTurtleUpgrade>> PERIPHERAL_TURTLE_UPGRADE = TURTLE_UPGRADE_SERIALIZERS.register("ros_upgrade", () -> TurtleUpgradeSerialiser.simple(ROSTurtleUpgrade::new));
+    
     public ROSCC()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -61,6 +69,8 @@ public class ROSCC
         ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so block entities get registered
         BLOCK_ENTITY_TYPES.register(modEventBus);
+        // Register the Deferred Register to the mod event bus so turtle upgrade serializers get registered
+        TURTLE_UPGRADE_SERIALIZERS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -100,6 +110,7 @@ public class ROSCC
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            ComputerCraftAPIClient.registerTurtleUpgradeModeller(PERIPHERAL_TURTLE_UPGRADE.get(), TurtleUpgradeModeller.sided(new ResourceLocation(MODID, "block/ros_peripheral"), new ResourceLocation(MODID, "block/ros_peripheral")));
         }
     }
 }

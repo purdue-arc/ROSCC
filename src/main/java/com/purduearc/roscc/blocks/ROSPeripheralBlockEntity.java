@@ -2,13 +2,13 @@ package com.purduearc.roscc.blocks;
 
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.Capabilities;
 
 import java.util.HashSet;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.purduearc.roscc.Capabilities;
 import com.purduearc.roscc.ROSPeripheral;
 
 import net.minecraft.core.BlockPos;
