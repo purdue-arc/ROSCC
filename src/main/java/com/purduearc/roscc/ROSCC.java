@@ -110,7 +110,7 @@ public class ROSCC
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-            ComputerCraftAPIClient.registerTurtleUpgradeModeller(PERIPHERAL_TURTLE_UPGRADE.get(), TurtleUpgradeModeller.sided(new ResourceLocation(MODID, "block/ros_peripheral"), new ResourceLocation(MODID, "block/ros_peripheral")));
+            ComputerCraftAPIClient.registerTurtleUpgradeModeller(PERIPHERAL_TURTLE_UPGRADE.get(), TurtleUpgradeModeller.sided(new ResourceLocation(MODID, "block/ros_upgrade_left"), new ResourceLocation(MODID, "block/ros_upgrade_right")));
         }
     }
 }

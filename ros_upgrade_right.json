@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "roscc:block/ros_upgrade_right"
+    }
+  }
+}
