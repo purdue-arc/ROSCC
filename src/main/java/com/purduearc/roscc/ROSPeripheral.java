@@ -45,6 +45,16 @@ public class ROSPeripheral implements IPeripheral {
 		this.active = false;
 	}
 	
+	@LuaFunction
+	public final boolean nodeStatus(IComputerAccess computer) {
+		return this.active;
+	}
+	
+	@LuaFunction
+	public final boolean turtleTest(IComputerAccess computer) {
+		return turtle != null;
+	}
+	
 	@Override
 	public void attach(IComputerAccess computer) {
 		blockEntity.attach(computer);
