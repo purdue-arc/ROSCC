@@ -5,9 +5,6 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 
 import java.util.HashSet;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import com.purduearc.roscc.Capabilities;
 import com.purduearc.roscc.ROSPeripheral;
 
@@ -30,7 +27,7 @@ public class ROSPeripheralBlockEntity extends BlockEntity {
 	}
 	
 	@Override
-	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
 		return CAPABILITY_PERIPHERAL.orEmpty(cap, peripheralLazyOptional);
 	}
 	

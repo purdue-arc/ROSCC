@@ -1,6 +1,8 @@
 package com.purduearc.roscc;
 
 import com.purduearc.roscc.blocks.ROSPeripheralBlockEntity;
+import com.purduearc.roscc.server.ROSCCServer;
+import com.purduearc.roscc.server.TurtleAccessWrap;
 
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -15,6 +17,9 @@ public class ROSPeripheral implements IPeripheral {
 	private TurtleSide turtleSide = null;
 	
 	private boolean active = false;
+	
+	private static ROSCCServer server = new ROSCCServer("127.0.0.1", 8080);
+	private static Thread serverThread = new Thread(server);
 	
 	public ROSPeripheral(ROSPeripheralBlockEntity rosPeripheralBlockEntity) {
 		this.blockEntity = rosPeripheralBlockEntity;
@@ -36,33 +41,38 @@ public class ROSPeripheral implements IPeripheral {
 	}
 	
 	@LuaFunction
-	public final void startNode(IComputerAccess computer) {
+	public final int startNode(IComputerAccess computer) {
+		ROSCCServer.turtles.put(computer.getID(), new TurtleAccessWrap(turtle, computer));
+		if (!serverThread.isAlive()) serverThread.start();
 		this.active = true;
+		return computer.getID();
 	}
 	
 	@LuaFunction
 	public final void stopNode(IComputerAccess computer) {
+		ROSCCServer.turtles.remove(computer.getID());
+		if (ROSCCServer.turtles.size() == 0 && serverThread.isAlive()) server.stop();
 		this.active = false;
 	}
 	
 	@LuaFunction
-	public final boolean nodeStatus(IComputerAccess computer) {
-		return this.active;
+	public final int nodeStatus(IComputerAccess computer) {
+		return this.active ? computer.getID() : -1;
 	}
 	
 	@LuaFunction
-	public final boolean turtleTest(IComputerAccess computer) {
+	public final boolean isTurtle(IComputerAccess computer) {
 		return turtle != null;
 	}
 	
 	@Override
 	public void attach(IComputerAccess computer) {
-		blockEntity.attach(computer);
+		if (blockEntity != null) blockEntity.attach(computer);
 	}
 	
 	@Override
 	public void detach(IComputerAccess computer) {
-		blockEntity.detach(computer);
+		if (blockEntity != null) blockEntity.detach(computer);
 	}
 	
 	@Override

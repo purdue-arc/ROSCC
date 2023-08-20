@@ -12,6 +12,9 @@ archivesBaseName = 'roscc'
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+
+jarJar.enable()
+
 minecraft {
     // The mappings can be changed at any time and must be in the following format.
     // Channel:   Version:
@@ -135,7 +138,9 @@ repositories {
       }
     }
 }
-
+configurations.all {
+	exclude group: 'org.jetbrains', module: 'annotations'
+}
 dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft', it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
@@ -147,6 +152,8 @@ dependencies {
     compileOnly("cc.tweaked:cc-tweaked-1.19.4-core-api:1.105.0")
     compileOnly(fg.deobf("cc.tweaked:cc-tweaked-1.19.4-forge-api:1.105.0"))
     runtimeOnly(fg.deobf("cc.tweaked:cc-tweaked-1.19.4-forge:1.105.0"))
+    minecraftLibrary "com.squareup.moshi:moshi:1.15.0"
+    jarJar(group: 'com.squareup.moshi', name: 'moshi', version: '[1.15.0,2.0)') 
     // Examples using mod jars from ./libs
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
 

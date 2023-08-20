@@ -3,6 +3,7 @@ package com.purduearc.roscc;
 import com.mojang.logging.LogUtils;
 import com.purduearc.roscc.blocks.ROSPeripheralBlock;
 import com.purduearc.roscc.blocks.ROSPeripheralBlockEntity;
+import com.purduearc.roscc.server.ROSCCServer;
 
 import dan200.computercraft.api.client.ComputerCraftAPIClient;
 import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
@@ -74,9 +75,12 @@ public class ROSCC
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        
+        // Register the creative tab
+//        modEventBus.addListener(this::addCreativeTab);
 
-        // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
+        // Register the item to the creative tab
+//        modEventBus.addListener(this::addCreativeContents);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
@@ -85,12 +89,15 @@ public class ROSCC
         LOGGER.info("HELLO FROM COMMON SETUP");
         LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
     }
-
-    private void addCreative(CreativeModeTabEvent.BuildContents event)
-    {
-        if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS)
-            event.accept(PERIPHERAL_BLOCK_ITEM);
-    }
+    
+//    private void addCreativeTab(CreativeModeTabEvent.Register event) {
+//    	event.regi
+//    }
+//
+//    private void addCreativeContents(CreativeModeTabEvent.BuildContents event)
+//    {
+//        if (event.getTab() == null) event.accept(PERIPHERAL_BLOCK_ITEM);
+//    }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
