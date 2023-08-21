@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
@@ -14,8 +15,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class CHandlerStatus implements HttpHandler {
@@ -46,10 +47,12 @@ public class CHandlerStatus implements HttpHandler {
 		boolean requestedPosition = query.containsKey("pos");
 		boolean requestedBlockNBT = query.containsKey("blocknbt");
 		boolean requestedItemNBT = query.containsKey("itemnbt");
+		boolean requestedEntityNBT = query.containsKey("entitynbt");
 		TurtleAccessWrap turtle = ROSCCServer.turtles.get(id);
 		SimpleItem[] inv = null;
 		SimplePos pos = null;
 		SimpleBlock[] blocks = null;
+		SimpleEntity[] entities = null;
 		if (turtle == null) {
 			response += "400 Bad Request (Invalid ID)";
 			exchange.sendResponseHeaders(400, response.length());
@@ -81,8 +84,16 @@ public class CHandlerStatus implements HttpHandler {
 			}
 			blocks = blocksList.toArray(new SimpleBlock[blocksList.size()]);
 		}
+		if (requestedEntitiesRadius > 0) {
+			Vec3i cubeCorner = new Vec3i(requestedEntitiesRadius, requestedEntitiesRadius, requestedEntitiesRadius);
+			List<Entity> entitiesList = turtle.turtle.getLevel().getEntities(null, new AABB(turtle.turtle.getPosition().subtract(cubeCorner).offset(0,1,0), turtle.turtle.getPosition().offset(cubeCorner).offset(1,1,1)));
+			entities = new SimpleEntity[entitiesList.size()];
+			for (int i = 0; i < entities.length; i++) {
+				entities[i] = new SimpleEntity(entitiesList.get(i), requestedEntityNBT);
+			}
+		}
 		
-		response = turtleStatusAdapter.toJson(new TurtleStatus(pos, inv, blocks));
+		response = turtleStatusAdapter.toJson(new TurtleStatus(pos, inv, blocks, entities));
         exchange.sendResponseHeaders(200, response.length());
         OutputStream os = exchange.getResponseBody();
         os.write(response.getBytes());
