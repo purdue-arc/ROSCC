@@ -19,11 +19,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class CHandlerStatus implements HttpHandler {
+public class StatusHandler implements HttpHandler {
 	
 	private final Moshi moshi;
 	private final JsonAdapter<TurtleStatus> turtleStatusAdapter;
-	public CHandlerStatus() {
+	public StatusHandler() {
 		this.moshi = new Moshi.Builder().build();
 		this.turtleStatusAdapter = this.moshi.adapter(TurtleStatus.class);
 	}
