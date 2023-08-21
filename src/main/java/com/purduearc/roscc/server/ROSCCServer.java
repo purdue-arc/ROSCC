@@ -10,7 +10,7 @@ import com.sun.net.httpserver.HttpServer;
 
 public class ROSCCServer implements Runnable {
 	private InetAddress address;
-	private final int port;
+	private int port;
 	public static final HashMap<Integer, TurtleAccessWrap> turtles = new HashMap<Integer, TurtleAccessWrap>();
 	private HttpServer server = null;
 	private boolean running = false;
@@ -28,6 +28,7 @@ public class ROSCCServer implements Runnable {
 		try {
 			server = HttpServer.create(new InetSocketAddress(address, port), 0);
 	        server.createContext("/status", new StatusHandler());
+	        server.createContext("/status", new StatusHandler());
 	        server.setExecutor(null);
 	        server.start();
 		} catch (IOException e) {
@@ -36,10 +37,25 @@ public class ROSCCServer implements Runnable {
 		running = true;
 	}
 	public void stop() {
-        server.stop(1);
+        if (server != null) {
+        	server.stop(1);
+        	server = null;
+        }
 	}
 	public boolean isRunning() {
 		return running;
+	}
+	public InetAddress getAddress() {
+		return address;
+	}
+	public int getPort() {
+		return port;
+	}
+	public void setAddress(InetAddress address) {
+		this.address = address;
+	}
+	public void setPort(int port) {
+		this.port = port;
 	}
 
 }

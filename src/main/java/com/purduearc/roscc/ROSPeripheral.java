@@ -1,5 +1,8 @@
 package com.purduearc.roscc;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import com.purduearc.roscc.blocks.ROSPeripheralBlockEntity;
 import com.purduearc.roscc.server.ROSCCServer;
 import com.purduearc.roscc.server.TurtleAccessWrap;
@@ -43,6 +46,20 @@ public class ROSPeripheral implements IPeripheral {
 	@LuaFunction
 	public final int nodeStatus(IComputerAccess computer) {
 		return this.active ? computer.getID() : -1;
+	}
+	
+	@LuaFunction
+	public final boolean setNodeAddress(String address, int port) {
+		server.stop();
+		serverThread = new Thread(server);
+		try {
+			server.setAddress(InetAddress.getByName(address));
+		} catch (UnknownHostException e) {
+			return false;
+		}
+		server.setPort(port);
+		serverThread.start();
+		return true;
 	}
 	
 	@LuaFunction
