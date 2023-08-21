@@ -17,7 +17,6 @@ public class ROSPeripheral implements IPeripheral {
 	
 	private ROSPeripheralBlockEntity blockEntity = null;
 	private ITurtleAccess turtle = null;
-	private TurtleSide turtleSide = null;
 	
 	private boolean active = false;
 	
@@ -28,9 +27,8 @@ public class ROSPeripheral implements IPeripheral {
 		this.blockEntity = rosPeripheralBlockEntity;
 	}
 	
-	public ROSPeripheral(ITurtleAccess turtle, TurtleSide turtleSide) {
+	public ROSPeripheral(ITurtleAccess turtle) {
 		this.turtle = turtle;
-		this.turtleSide = turtleSide;
 	}
 
 	@Override

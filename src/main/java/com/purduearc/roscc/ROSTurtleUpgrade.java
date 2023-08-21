@@ -40,7 +40,7 @@ public class ROSTurtleUpgrade implements ITurtleUpgrade {
 	
 	@Override
 	public IPeripheral createPeripheral(ITurtleAccess turtle, TurtleSide side) {
-		return new ROSPeripheral(turtle, side);
+		return new ROSPeripheral(turtle);
 	}
 
 }
