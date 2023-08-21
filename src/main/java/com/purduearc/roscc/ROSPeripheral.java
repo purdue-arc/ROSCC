@@ -41,21 +41,6 @@ public class ROSPeripheral implements IPeripheral {
 	}
 	
 	@LuaFunction
-	public final int startNode(IComputerAccess computer) {
-		ROSCCServer.turtles.put(computer.getID(), new TurtleAccessWrap(turtle, computer));
-		if (!serverThread.isAlive()) serverThread.start();
-		this.active = true;
-		return computer.getID();
-	}
-	
-	@LuaFunction
-	public final void stopNode(IComputerAccess computer) {
-		ROSCCServer.turtles.remove(computer.getID());
-		if (ROSCCServer.turtles.size() == 0 && serverThread.isAlive()) server.stop();
-		this.active = false;
-	}
-	
-	@LuaFunction
 	public final int nodeStatus(IComputerAccess computer) {
 		return this.active ? computer.getID() : -1;
 	}
@@ -67,11 +52,21 @@ public class ROSPeripheral implements IPeripheral {
 	
 	@Override
 	public void attach(IComputerAccess computer) {
+		if (turtle != null) {
+			ROSCCServer.turtles.put(computer.getID(), new TurtleAccessWrap(turtle, computer));
+			if (!serverThread.isAlive() && !server.isRunning()) serverThread.start();
+			this.active = true;
+		}
 		if (blockEntity != null) blockEntity.attach(computer);
 	}
 	
 	@Override
 	public void detach(IComputerAccess computer) {
+		if (turtle != null) {
+			ROSCCServer.turtles.remove(computer.getID());
+			if (ROSCCServer.turtles.size() == 0 && server.isRunning()) server.stop();
+			this.active = false;
+		}
 		if (blockEntity != null) blockEntity.detach(computer);
 	}
 	

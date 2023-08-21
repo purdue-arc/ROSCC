@@ -13,6 +13,7 @@ public class ROSCCServer implements Runnable {
 	private final int port;
 	public static final HashMap<Integer, TurtleAccessWrap> turtles = new HashMap<Integer, TurtleAccessWrap>();
 	private HttpServer server = null;
+	private boolean running = false;
 	public ROSCCServer(String address, int port) {
 		try {
 			this.address = InetAddress.getByName(address);
@@ -32,11 +33,13 @@ public class ROSCCServer implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        System.out.println("Started server");
+		running = true;
 	}
 	public void stop() {
         server.stop(1);
-        System.out.println("Stopped server");
+	}
+	public boolean isRunning() {
+		return running;
 	}
 
 }
