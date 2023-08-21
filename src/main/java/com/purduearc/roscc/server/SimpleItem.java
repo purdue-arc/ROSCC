@@ -16,7 +16,8 @@ public class SimpleItem {
 	public SimpleItem(ItemStack item) {
 		this.id = Item.getId(item.getItem());
 		this.count = item.getCount();
-		this.nbt = item.serializeNBT().toString();
+		String fullNBT = item.serializeNBT().toString();
+		this.nbt = fullNBT.equals("{Count:1b,id:\"minecraft:air\"}") ? null : fullNBT;
 	}
 	public static SimpleItem[] toSimpleItems(Container container) {
 		SimpleItem[] items = new SimpleItem[container.getContainerSize()];
