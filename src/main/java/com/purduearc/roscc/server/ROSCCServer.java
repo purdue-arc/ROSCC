@@ -28,7 +28,7 @@ public class ROSCCServer implements Runnable {
 		try {
 			server = HttpServer.create(new InetSocketAddress(address, port), 0);
 	        server.createContext("/status", new StatusHandler());
-	        server.createContext("/status", new StatusHandler());
+	        server.createContext("/action", new ActionHandler());
 	        server.setExecutor(null);
 	        server.start();
 		} catch (IOException e) {
