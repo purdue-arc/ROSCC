@@ -11,7 +11,6 @@ import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.turtle.ITurtleAccess;
-import dan200.computercraft.api.turtle.TurtleSide;
 
 public class ROSPeripheral implements IPeripheral {
 	
