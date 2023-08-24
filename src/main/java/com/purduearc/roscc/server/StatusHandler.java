@@ -31,7 +31,7 @@ public class StatusHandler implements HttpHandler {
 	public void handle(HttpExchange exchange) throws IOException {
 		String response = "";
 		
-		HashMap<String, String> query = parseQuery(exchange.getRequestURI().getQuery());
+		HashMap<String, String> query = QueryUtils.parseQuery(exchange.getRequestURI().getQuery());
 		if (query.size() == 0 || !query.containsKey("id")) {
 			response += "400 Bad Request";
 			exchange.sendResponseHeaders(400, response.length());
@@ -98,15 +98,6 @@ public class StatusHandler implements HttpHandler {
         OutputStream os = exchange.getResponseBody();
         os.write(response.getBytes());
         os.close();
-	}
-	private static HashMap<String, String> parseQuery(String query) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		for (String keyval : query.split("\\&")) {
-			String parts[] = keyval.split("\\=");
-			if (parts.length == 2) map.put(parts[0], parts[1]);
-			else map.put(parts[0], "");
-		}
-		return map;
 	}
 
 }
