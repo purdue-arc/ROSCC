@@ -12,6 +12,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -48,11 +49,13 @@ public class StatusHandler implements HttpHandler {
 		boolean requestedBlockNBT = query.containsKey("blocknbt");
 		boolean requestedItemNBT = query.containsKey("itemnbt");
 		boolean requestedEntityNBT = query.containsKey("entitynbt");
+		boolean requestedDirection = query.containsKey("dir");
 		TurtleAccessWrap turtle = ROSCCServer.turtles.get(id);
 		SimpleItem[] inv = null;
 		SimplePos pos = null;
 		SimpleBlock[] blocks = null;
 		SimpleEntity[] entities = null;
+		Direction dir = null;
 		if (turtle == null) {
 			response += "400 Bad Request (Invalid ID)";
 			exchange.sendResponseHeaders(400, response.length());
@@ -92,8 +95,11 @@ public class StatusHandler implements HttpHandler {
 				entities[i] = new SimpleEntity(entitiesList.get(i), requestedEntityNBT);
 			}
 		}
+		if (requestedDirection) {
+			dir = turtle.turtle.getDirection();
+		}
 		
-		response = turtleStatusAdapter.toJson(new TurtleStatus(pos, inv, blocks, entities));
+		response = turtleStatusAdapter.toJson(new TurtleStatus(pos, inv, blocks, entities, dir));
         exchange.sendResponseHeaders(200, response.length());
         OutputStream os = exchange.getResponseBody();
         os.write(response.getBytes());

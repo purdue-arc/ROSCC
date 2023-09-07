@@ -1,7 +1,7 @@
 plugins {
     id 'eclipse'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'net.minecraftforge.gradle' version '6.0.+'
 }
 
 version = '1.0'
@@ -149,11 +149,27 @@ dependencies {
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
-    compileOnly("cc.tweaked:cc-tweaked-1.19.4-core-api:1.105.0")
-    compileOnly(fg.deobf("cc.tweaked:cc-tweaked-1.19.4-forge-api:1.105.0"))
-    runtimeOnly(fg.deobf("cc.tweaked:cc-tweaked-1.19.4-forge:1.105.0"))
+    compileOnly("cc.tweaked:cc-tweaked-1.19.4-core-api:1.108.0")
+    compileOnly(fg.deobf("cc.tweaked:cc-tweaked-1.19.4-forge-api:1.108.0"))
+    runtimeOnly(fg.deobf("cc.tweaked:cc-tweaked-1.19.4-forge:1.108.0"))
+    compileOnly(fg.deobf("cc.tweaked:cc-tweaked-1.19.4-forge:1.108.0"))
     minecraftLibrary "com.squareup.moshi:moshi:1.15.0"
-    jarJar(group: 'com.squareup.moshi', name: 'moshi', version: '[1.15.0,2.0)') 
+    jarJar(group: 'com.squareup.moshi', name: 'moshi', version: '[1.15.0,2.0)')
+    jarJar(group: 'com.squareup.okio', name: 'okio', version: '[2.10.0,3.0)') {
+      jarJar.pin(it, '2.10.0')
+    }
+    jarJar(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: '[1.8.21, 2.0)') {
+      jarJar.pin(it, '1.8.21')
+    }
+    jarJar(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-common', version: '[1.8.21, 2.0)') {
+      jarJar.pin(it, '1.8.21')
+    }
+    jarJar(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '[1.8.21, 2.0)') {
+      jarJar.pin(it, '1.8.21')
+    }
+    jarJar(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk7', version: '[1.8.21, 2.0)') {
+      jarJar.pin(it, '1.8.21')
+    }
     // Examples using mod jars from ./libs
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
 
