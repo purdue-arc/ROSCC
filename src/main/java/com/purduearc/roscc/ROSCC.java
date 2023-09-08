@@ -9,12 +9,14 @@ import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -101,6 +103,13 @@ public class ROSCC
     {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+    }
+    @SubscribeEvent
+    public void buildContents(CreativeModeTabEvent.BuildContents event) {
+      // Add to ingredients tab
+      if (event.getTab() == CreativeModeTabs.REDSTONE_BLOCKS) {
+        event.accept(PERIPHERAL_BLOCK_ITEM.get());
+      }
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
