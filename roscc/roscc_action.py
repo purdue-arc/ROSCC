@@ -8,10 +8,10 @@ from rktl_msgs.msg import Action
 class MinimalSubscriber(Node):
 
     def __init__(self):
-        super().__init__('minimal_subscriber')
+        super().__init__('ros_to_roscc')
         self.subscription = self.create_subscription(
             Action,
-            'ros_to_roscc',
+            'roscc.action',
             self.listener_callback,
             10)
         self.subscription  # prevent unused variable warning
