@@ -12,6 +12,8 @@ def publish():
 
     status = TurtleStatus()
 
+    status.id = 0
+
     status.x = data['pos']['x']
     status.y = data['pos']['y']
     status.z = data['pos']['z']
