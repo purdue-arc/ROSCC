@@ -1,5 +1,5 @@
 {
-  "item.roscc.ros_peripheral": "ROS Connector",
-  "block.roscc.ros_peripheral": "ROS Connector"
+  "item.roscc.ros_peripheral": "ROS Modem",
+  "block.roscc.ros_peripheral": "ROS Modem",
   "item_group.roscc.tab": "ROSCC"
 }
