@@ -16,7 +16,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ROSPeripheralBlock extends Block implements EntityBlock {
-	private static final VoxelShape SHAPE = Shapes.join(Block.box(1.0d, 0.0d, 1.0d, 15.0d, 2.0d, 15.0d), Block.box(2.0d, 0.0d, 2.0d, 14.0d, 3.0d, 14.0d), BooleanOp.OR);
+	private static final VoxelShape SHAPE = Block.box(2.0d, 0.0d, 2.0d, 14.0d, 3.0d, 14.0d);
 
 	public ROSPeripheralBlock() {
 		super(BlockBehaviour.Properties.of(Material.STONE));
