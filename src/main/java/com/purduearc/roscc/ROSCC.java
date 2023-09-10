@@ -7,10 +7,11 @@ import dan200.computercraft.api.client.ComputerCraftAPIClient;
 import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
 import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -104,18 +105,24 @@ public class ROSCC
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
     }
-    @SubscribeEvent
-    public void buildContents(CreativeModeTabEvent.BuildContents event) {
-      // Add to ingredients tab
-      if (event.getTab() == CreativeModeTabs.REDSTONE_BLOCKS) {
-        event.accept(PERIPHERAL_BLOCK_ITEM.get());
-      }
-    }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
+    	// Taken from https://gist.github.com/ChampionAsh5357/163a75e87599d19ee6b4b879821953e8
+    	// Available under CC BY 4.0
+    	@SubscribeEvent
+    	public static void buildContents(CreativeModeTabEvent.Register event) {
+    		// Thanks to https://gist.github.com/ChampionAsh5357/163a75e87599d19ee6b4b879821953e8 for 
+    		event.registerCreativeModeTab(new ResourceLocation(MODID, "tab"), builder ->
+	    		builder.title(Component.translatable("item_group." + MODID + ".tab"))
+	    	    .icon(() -> new ItemStack(PERIPHERAL_BLOCK_ITEM.get()))
+	    	    .displayItems((params, output) -> {
+	    	    output.accept(PERIPHERAL_BLOCK_ITEM.get());
+    	    })
+    	  );
+    	}
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
