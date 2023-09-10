@@ -23,6 +23,7 @@ import dan200.computercraft.shared.turtle.core.TurtleDetectCommand;
 import dan200.computercraft.shared.turtle.core.TurtleDropCommand;
 import dan200.computercraft.shared.turtle.core.TurtleEquipCommand;
 import dan200.computercraft.shared.turtle.core.TurtleInspectCommand;
+import dan200.computercraft.shared.turtle.core.TurtlePlaceCommand;
 import dan200.computercraft.shared.turtle.core.TurtleRefuelCommand;
 import dan200.computercraft.shared.turtle.core.TurtleSuckCommand;
 import dan200.computercraft.shared.turtle.core.TurtleToolCommand;
@@ -281,7 +282,7 @@ public class ActionHandler implements HttpHandler {
 		}
 		if (place.length() != 0) {
 			if (parseInteractDirection(place) != null) {
-				MethodResult res = turtle.turtle.executeCommand(new TurtleMoveCommand(parseMoveDirection(move)));
+				MethodResult res = turtle.turtle.executeCommand(new TurtlePlaceCommand(parseInteractDirection(place), null));
 				if (res.getResult() != null) {
 					Object[] objArr = res.getResult();
 					if (objArr.length > 0) response += "place";
