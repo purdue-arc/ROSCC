@@ -99,7 +99,7 @@ public class StatusHandler implements HttpHandler {
 			dir = turtle.turtle.getDirection();
 		}
 		
-		response = turtleStatusAdapter.toJson(new TurtleStatus(pos, inv, blocks, entities, dir));
+		response = turtleStatusAdapter.toJson(new TurtleStatus(pos, inv, blocks, entities, dir.toString().toLowerCase()));
         exchange.sendResponseHeaders(200, response.length());
         OutputStream os = exchange.getResponseBody();
         os.write(response.getBytes());
