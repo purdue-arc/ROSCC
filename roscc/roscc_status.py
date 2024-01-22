@@ -1,18 +1,27 @@
 import requests
-import rospy
-from rktl_msgs.msg import TurtleStatus, Entity, Item, Block
+import rclpy
+from rclpy.node import Node
+from roscc_msg.msg import TurtleStatus, Entity, Item, Block
 
-def publish():
-  publisher = rospy.Publisher('roscc.status', TurtleStatus, queue_size=10)
-  rospy.init_node('roscc_to_ros', anonymous=True)
-  rate = rospy.Rate(10)
-  while not rospy.is_shutdown():
-    r = requests.get("http://127.0.0.1:8080/status", params="id=0&inv&pos&blocknbt&blocks=1&itemnbt&entities=5&entitynbt")
+class MinimalPublisher(Node):
+
+  def __init__(self):
+    super().__init__('roscc_to_ros')
+    self.publisher_ = self.create_publisher(TurtleStatus, 'roscc_status', 10)
+    timer_period = 0.5  # seconds
+    self.timer = self.create_timer(timer_period, self.timer_callback)
+    self.declare_parameter('id', 255)
+    self.id = self.get_parameter('id').value
+    self.get_logger().info(f"ID {self.id}")
+
+  def timer_callback(self):
+    r = requests.get("http://10.9.0.8:8080/status", params=f"id={self.id}&inv&pos&blocknbt&blocks=1&itemnbt&entities=5&entitynbt")
+    self.get_logger().info(str(r.status_code))
     data = r.json()
 
     status = TurtleStatus()
 
-    status.id = 0
+    status.id = self.id
 
     status.x = data['pos']['x']
     status.y = data['pos']['y']
@@ -48,12 +57,19 @@ def publish():
       entity.z = ent['z']
       entities.append(entity)
     status.entities = entities
-    
-    publisher.publish(status)
-    rate.sleep()
+    self.publisher_.publish(status)
+    # self.get_logger().info('Publishing')
 
-if __name__ == '__main__':
-  try:
-    publish()
-  except rospy.ROSInterruptException:
-    pass
+
+def main(args=None):
+  rclpy.init(args=args)
+
+  minimal_publisher = MinimalPublisher()
+
+  rclpy.spin(minimal_publisher)
+
+  # Destroy the node explicitly
+  # (optional - otherwise it will be done automatically
+  # when the garbage collector destroys the node object)
+  minimal_publisher.destroy_node()
+  rclpy.shutdown()
