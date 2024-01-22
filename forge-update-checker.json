@@ -1,0 +1,11 @@
+{
+  "homepage": "https://github.com/purdue-arc/ROSCC/releases",
+  "1.19.4": {
+    "1.0": "Initial release",
+    "1.1": "Update CC: Tweaked minimum version, use Forge Update Checker"
+  },
+  "promos": {
+    "1.19.4-latest": "1.1",
+    "1.19.4-recommended": "1.1"
+  }
+}
