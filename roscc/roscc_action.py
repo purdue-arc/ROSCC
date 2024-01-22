@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 import requests
 
-from rktl_msgs.msg import Action
+from roscc_msg.msg import Action
 
 
 class MinimalSubscriber(Node):
@@ -11,13 +11,13 @@ class MinimalSubscriber(Node):
         super().__init__('ros_to_roscc')
         self.subscription = self.create_subscription(
             Action,
-            'roscc.action',
+            'roscc_action',
             self.listener_callback,
             10)
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg):
-        r = requests.get("http://127.0.0.1:8080/action", params=f"id={msg.id}&{msg.params}")
+        r = requests.get("http://10.9.0.8:8080/action", params=f"id={msg.id}&{msg.params}")
         if r.status_code != 200:
             rclpy.get_logger().warn(f'bad request. status code {r.status_code}')
 
