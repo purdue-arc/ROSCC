@@ -36,7 +36,7 @@ minecraft {
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
     runs {
-	    all {
+        all {
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
         }
@@ -138,17 +138,14 @@ repositories {
       }
     }
 }
-configurations.all {
-	exclude group: 'org.jetbrains', module: 'annotations'
-}
+// configurations.all {
+// 	exclude group: 'org.jetbrains', module: 'annotations'
+// }
 dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft', it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.19.4-45.1.0'
-
-    // Real mod deobf dependency examples - these get remapped to your current mappings
-    // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
+    minecraft 'net.minecraftforge:forge:1.19.4-45.2.0'
     compileOnly("cc.tweaked:cc-tweaked-1.19.4-core-api:1.108.0")
     compileOnly(fg.deobf("cc.tweaked:cc-tweaked-1.19.4-forge-api:1.108.0"))
     runtimeOnly(fg.deobf("cc.tweaked:cc-tweaked-1.19.4-forge:1.108.0"))
@@ -170,6 +167,9 @@ dependencies {
     jarJar(group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk7', version: '[1.8.21, 2.0)') {
       jarJar.pin(it, '1.8.21')
     }
+    // Real mod deobf dependency examples - these get remapped to your current mappings
+    // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
+
     // Examples using mod jars from ./libs
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
 
