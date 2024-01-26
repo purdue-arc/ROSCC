@@ -61,7 +61,7 @@ public class ROSCC
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
+//        modEventBus.addListener(this::commonSetup);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
@@ -82,12 +82,12 @@ public class ROSCC
 //        modEventBus.addListener(this::addCreativeContents);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
+//    private void commonSetup(final FMLCommonSetupEvent event)
+//    {
         // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-    }
+//        LOGGER.info("HELLO FROM COMMON SETUP");
+//        LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
+//    }
     
 //    private void addCreativeTab(CreativeModeTabEvent.Register event) {
 //    	event.regi
@@ -99,12 +99,12 @@ public class ROSCC
 //    }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
+//    @SubscribeEvent
+//    public void onServerStarting(ServerStartingEvent event)
+//    {
+//        // Do something when the server starts
+//        LOGGER.info("HELLO from server starting");
+//    }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -127,8 +127,8 @@ public class ROSCC
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+//            LOGGER.info("HELLO FROM CLIENT SETUP");
+//            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
             ComputerCraftAPIClient.registerTurtleUpgradeModeller(PERIPHERAL_TURTLE_UPGRADE.get(), TurtleUpgradeModeller.sided(new ResourceLocation(MODID, "block/ros_upgrade_left"), new ResourceLocation(MODID, "block/ros_upgrade_right")));
         }
     }
