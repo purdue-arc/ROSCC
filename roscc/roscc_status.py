@@ -15,13 +15,14 @@ class MinimalPublisher(Node):
     self.get_logger().info(f"ID {self.id}")
 
   def timer_callback(self):
-    r = requests.get("http://10.9.0.8:8080/status", params=f"id={self.id}&inv&pos&blocknbt&blocks=1&itemnbt&entities=5&entitynbt")
+    r = requests.get("http://10.9.0.8:8080/status", params=f"id={self.id}&inv&pos&blocknbt&blocks=1&itemnbt&entities=5&entitynbt&dir")
     self.get_logger().info(str(r.status_code))
     data = r.json()
 
     status = TurtleStatus()
 
     status.id = self.id
+    status.dir = data['dir']
 
     status.x = data['pos']['x']
     status.y = data['pos']['y']

@@ -19,7 +19,7 @@ class MinimalSubscriber(Node):
     def listener_callback(self, msg):
         r = requests.get("http://10.9.0.8:8080/action", params=f"id={msg.id}&{msg.params}")
         if r.status_code != 200:
-            rclpy.get_logger().warn(f'bad request. status code {r.status_code}')
+            self.get_logger().warn(f'bad request. status code {r.status_code} {r.text}')
 
 
 

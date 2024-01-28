@@ -5,3 +5,4 @@ int32 z
 Block[] blocks
 Entity[] entities
 Item[16] inv
+string dir
