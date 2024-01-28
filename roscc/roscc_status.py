@@ -12,10 +12,11 @@ class MinimalPublisher(Node):
     self.timer = self.create_timer(timer_period, self.timer_callback)
     self.declare_parameter('id', 255)
     self.id = self.get_parameter('id').value
-    self.get_logger().info(f"ID {self.id}")
+    self.server_address = "10.9.0.8:8080" # You will probably want to change this
+    self.get_logger().info(f"Starting status node for ID {self.id}")
 
   def timer_callback(self):
-    r = requests.get("http://10.9.0.8:8080/status", params=f"id={self.id}&inv&pos&blocknbt&blocks=1&itemnbt&entities=5&entitynbt&dir")
+    r = requests.get(f"http://{self.server_address}/status", params=f"id={self.id}&inv&pos&blocknbt&blocks=1&itemnbt&entities=5&entitynbt&dir")
     self.get_logger().info(str(r.status_code))
     data = r.json()
 

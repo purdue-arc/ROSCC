@@ -15,9 +15,11 @@ class MinimalSubscriber(Node):
             self.listener_callback,
             10)
         self.subscription  # prevent unused variable warning
+        self.server_address = "10.9.0.8:8080" # You will probably want to change this
+        self.get_logger().info(f"Starting action node")
 
     def listener_callback(self, msg):
-        r = requests.get("http://10.9.0.8:8080/action", params=f"id={msg.id}&{msg.params}")
+        r = requests.get(f"http://{self.server_address}/action", params=f"id={msg.id}&{msg.params}")
         if r.status_code != 200:
             self.get_logger().warn(f'bad request. status code {r.status_code} {r.text}')
 
