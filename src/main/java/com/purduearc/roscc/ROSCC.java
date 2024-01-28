@@ -6,24 +6,21 @@ import com.purduearc.roscc.blocks.ROSPeripheralBlockEntity;
 import dan200.computercraft.api.client.ComputerCraftAPIClient;
 import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
 import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
-import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -119,7 +116,10 @@ public class ROSCC
 	    		builder.title(Component.translatable("item_group." + MODID + ".tab"))
 	    	    .icon(() -> new ItemStack(PERIPHERAL_BLOCK_ITEM.get()))
 	    	    .displayItems((params, output) -> {
-	    	    output.accept(PERIPHERAL_BLOCK_ITEM.get());
+	    	    	ItemStack item = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("computercraft", "turtle_advanced")));
+	    	    	item.addTagElement("RightUpgrade", StringTag.valueOf("roscc:ros_upgrade"));
+		    	    output.accept(PERIPHERAL_BLOCK_ITEM.get());
+		    	    output.accept(item);
     	    })
     	  );
     	}
